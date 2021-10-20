@@ -1,0 +1,27 @@
+.card,button {
+    margin:8px auto;
+    padding:10px 15px;
+    border-radius:15px;
+    background:white;
+    font-family:sans, sans-serif;
+    box-shadow:5px 10px 10px #0003;
+    text-align:center;
+    border:none;
+    font-size:1em;
+    display:block;
+}
+button:hover {opacity:.9;cursor:pointer}
+button:active {transform:scale(0.95)}
+button { background:#489FF8; }
+.success { background:#81D552; }
+.danger { background:#FF5C54; }
+.card.big {
+    padding:30px 15px;
+}
+body {
+    background:#434343;
+    font-size:1.3rem;
+}
+.card .year {
+    font-weight:bolder
+}

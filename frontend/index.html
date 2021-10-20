@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <meta charset="utf8">
+    </head>
+    <body>
+
+        <!-- app level -->
+        <div id="app">
+                
+            <!-- top level card / button -->
+            <div v-if="gameRunning" class="card big">
+                {{currentMilestone.title}}
+            </div>
+            <button v-else class="big" @click="startGame"> <img src="./img/repeat.png" height="25"> Nochmal </button>
+
+            <!-- the milestones --> 
+            <div id="milestone">
+
+                <!-- the loop -->
+                <button @click="insertMilestoneAt(0)"><img src="./img/insert.png" height="25"></button>
+                <div :key="index" v-for="(milestone,index) in milestonesJudged">
+
+                    <div :class="gameRunning ? 'card' : milestone.correct ? 'card success' : 'card danger'">
+                        {{milestone.title}}
+                        <div v-if="!gameRunning" class="year">{{milestone.year}}</div>
+                    </div>
+                    <button @click="insertMilestoneAt(index+1)"><img src="./img/insert.png" height="25"></button>
+
+                </div>
+
+            </div>
+        </div>
+
+    </body>
+    <footer>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+        <script src="anno_domino.js"></script>
+    </footer>
+</html>
+
