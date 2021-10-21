@@ -18,14 +18,14 @@
             <div id="milestone">
 
                 <!-- the loop -->
-                <button @click="insertMilestoneAt(0)"><img src="./img/insert.png" height="25"></button>
+                <button @click="insertMilestoneAt(0)" v-if="gameRunning"><img src="./img/insert.png" height="25"></button>
                 <div :key="index" v-for="(milestone,index) in milestonesJudged">
 
                     <div :class="gameRunning ? 'card' : milestone.correct ? 'card success' : 'card danger'">
                         {{milestone.title}}
                         <div v-if="!gameRunning" class="year">{{milestone.year}}</div>
                     </div>
-                    <button @click="insertMilestoneAt(index+1)"><img src="./img/insert.png" height="25"></button>
+                    <button v-if="gameRunning" @click="insertMilestoneAt(index+1)"><img src="./img/insert.png" height="25"></button>
 
                 </div>
 
