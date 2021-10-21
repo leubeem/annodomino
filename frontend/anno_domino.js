@@ -3,10 +3,10 @@ Array.prototype.insert = function ( index, item ) {
 };
 
 // where the API sits
-const API_URL = "https://die-leugers.de:8081"
+const API_URL = "http://die-leugers.de:8081"
 
 // bypass api for DEV purposes
-const BYPASS_API = true
+const BYPASS_API = !true
 
 // get vue up and running
 var app = new Vue({
@@ -37,6 +37,10 @@ var app = new Vue({
         // prep milestones for game display, for instance if they are in good order, or provide
         // human readable negative dates
         milestonesJudged: function() {
+
+            if(this.milestones.length == 0 && this.currentMilestone != null) {
+                this.insertMilestoneAt(0)
+            }
 
             // compute for display
             let milestonesJudged = this.milestones.map((m)=>{
@@ -87,9 +91,12 @@ var app = new Vue({
         // lets not call the api for everyd single milestone, but once in a while
         // we need to get some more milestones into local cache
         fillCacheWithMoreAPIMilestones: function(finallyCall_GetRandomMilestone) {
+            console.log("ich kann logggen")
             fetch(API_URL+"/milestones")
                 .then(d=>d.json())
                 .then(milestones=>{
+                    console.log("ich kann decoden")
+                    console.log("milestones:",milestones)
                     this.cachedNextMilestones.push(...milestones)
                     if(finallyCall_GetRandomMilestone)
                         this.getRandomMilestone()
@@ -136,7 +143,6 @@ var app = new Vue({
         startGame: function() {
             this.milestones = []
             this.getRandomMilestone()
-            this.insertMilestoneAt(0)
             this.gameRunning = true
         }
 
