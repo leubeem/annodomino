@@ -57,17 +57,23 @@ var app = new Vue({
                 return milestonesJudged
 
             // check which are wrong
-            let currentYear = milestonesJudged[0].year;
-            for(let i=1;i<milestonesJudged.length;i++) {
-                 if(currentYear>milestonesJudged[i].year)
-                    milestonesJudged[i].correct = false
-                 else
-                    currentYear = milestonesJudged[i].year
-            }
+            // therefore know, how it'd be right
+            let correct = [...this.milestones]
+            correct = correct.sort((a,b)=>a.year > b.year)
+            // lets start with the lowest 
+            let currentIndex = 0
 
-            // if endgame, sort them
-            if(!this.gameRunning) {
-                milestonesJudged = milestonesJudged.sort((a,b)=>a.intYear>b.intYear)
+            console.log("correct",correct.map(o=>o.year))
+            console.log("uncorrect",this.milestones.map(o=>o.year))
+
+            // go through each step
+            for(let index=0;index<milestonesJudged.length;index++) {
+
+                // if the current year is the same as we expect it from current Index, then it is okay.
+                if(correct[currentIndex].year!=this.milestones[index].year)
+                    milestonesJudged[index].correct = false
+                else
+                    currentIndex++
             }
 
             return milestonesJudged
@@ -91,12 +97,9 @@ var app = new Vue({
         // lets not call the api for everyd single milestone, but once in a while
         // we need to get some more milestones into local cache
         fillCacheWithMoreAPIMilestones: function(finallyCall_GetRandomMilestone) {
-            console.log("ich kann logggen")
             fetch(API_URL+"/milestones")
                 .then(d=>d.json())
                 .then(milestones=>{
-                    console.log("ich kann decoden")
-                    console.log("milestones:",milestones)
                     this.cachedNextMilestones.push(...milestones)
                     if(finallyCall_GetRandomMilestone)
                         this.getRandomMilestone()
