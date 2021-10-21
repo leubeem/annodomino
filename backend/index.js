@@ -19,7 +19,10 @@ app.get('/milestone', function (req,res) {
 	con.query("SELECT * FROM questions AS t1 JOIN (SELECT id FROM questions ORDER BY RAND() LIMIT 2) AS t2 ON t1.id=t2.id",
 		function (err, result, fields) {
 			if (err){
-				throw err;
+				//throw err;
+				console.log(error);	
+				res.status(503);
+				res.end("Error, probably at inserting data into database");
 			} else {
 				//returning the rows as json
 				console.log("Returning rows from databse to requester");
@@ -42,7 +45,10 @@ app.post('/milestone', function(req,res) {
 	const query = `Insert into questions (year, title, category) VALUES (?,?,?);`;
 	con.query(query, [year, title, categoryId], function (err, data) {
 		if(err) {
-			throw err;
+			//throw err;
+			console.log(error);
+			res.status(503);
+			res.end("Error, probably at inserting data into database");
 		} else {
 			//returning success and 202 OK
 			console.log("Added row to database");
